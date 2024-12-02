@@ -22,6 +22,7 @@ interface ISocketProviderMethods {
 	goodAnswer: (lobbyId: string, userId: string) => void
 	badAnswer: (lobbyId: string, answer: string) => void
 	newRound: (lobbyId: string) => void
+	timerEnded: (lobbyId: string) => void
 }
 
 interface ISocketContextProps {
@@ -95,6 +96,9 @@ export function SocketProvider({ children }: ISocketProviderProps) {
 		},
 		newRound(lobbyId: string) {
 			socket.emit("newRound", lobbyId)
+		},
+		timerEnded(lobbyId: string) {
+			socket.emit("timerEnded", lobbyId, socket.id)
 		},
 	}
 

@@ -1,0 +1,21 @@
+.answerscreen {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 1rem;
+
+	span {
+		font-weight: 600;
+		color: var(--color-tertiary);
+	}
+
+	&__answer {
+		font-size: 2rem;
+	}
+
+	&__name {
+		span {
+			font-size: 1.3rem;
+		}
+	}
+}

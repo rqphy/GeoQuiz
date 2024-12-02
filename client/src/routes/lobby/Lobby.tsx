@@ -40,6 +40,7 @@ export default function Lobby() {
 	const [defaultCountryId, setDefaultCountryId] = useState<number>(0)
 	const [isGameOn, setIsGameOn] = useState<boolean>(false)
 	const { isCreator, setIsCreator } = useGameStore()
+	const [defaultTargetDate, setDefaultTargetDate] = useState<Date>()
 
 	useEffect(() => {
 		// Check if creator
@@ -50,11 +51,12 @@ export default function Lobby() {
 		// Check if the current user is the creator
 		setIsCreator(socket.id === creator)
 
-		socket.on("startGame", ({ countriesList, countryId }) => {
+		socket.on("startGame", ({ countriesList, countryId, targetDate }) => {
 			console.log("start game", countriesList)
 			setCountriesList(countriesList)
 			setDefaultCountryId(countryId)
 			setIsGameOn(true)
+			setDefaultTargetDate(targetDate)
 		})
 
 		socket.on("updateCreator", (newCreatorId) => {
@@ -120,6 +122,7 @@ export default function Lobby() {
 							<Quizz
 								countriesList={coutriesList}
 								defaultCountryId={defaultCountryId}
+								firstTargetDate={defaultTargetDate as Date}
 							/>
 							<ScoreBoard playerList={players} />
 						</>
