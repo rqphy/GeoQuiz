@@ -1,14 +1,14 @@
 html {
-    font-size: 16px;
-    font-family: var(--font-name);
-    color: var(--color-tertiary);
-    background-color: var(--color-dark);
+	font-size: 16px;
+	font-family: var(--font-name);
+	color: var(--color-tertiary);
+	background-color: var(--color-secondary);
 
-    @include medium {
-        font-size: 14px;
-    }
+	@include medium {
+		font-size: 14px;
+	}
 
-    @include small {
-        font-size: 12px;
-    }
+	@include small {
+		font-size: 12px;
+	}
 }
