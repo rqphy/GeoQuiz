@@ -32,13 +32,11 @@ export default function Home() {
 						amis ou des joueurs du monde entier et grimpez dans le
 						classement&nbsp;!
 					</p>
-					<div className="hero__buttons">
 						<Button
 							label="Jouer"
 							className="hero__play"
 							onClick={handleCreateLobby}
 						/>
-					</div>
 				</div>
 				<div className="hero__planet">
 					<Canvas>

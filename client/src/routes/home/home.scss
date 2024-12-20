@@ -1,11 +1,11 @@
 .hero {
 	position: relative;
-	height: 100vh;
-	height: --webkit-fill-available;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: space-between;
+	height: 100vh;
+	height: --webkit-fill-available;
 	padding-top: 6rem;
 
 	&__content {
@@ -14,10 +14,10 @@
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-		text-align: center;
 		width: 60%;
 		margin-top: 2rem;
 		gap: 3rem;
+		text-align: center;
 		color: var(--color-primary);
 		z-index: 2;
 
@@ -67,17 +67,8 @@
 
 	&__play {
 		width: 200px;
-	}
-
-	&__buttons {
-		display: flex;
-		flex-direction: column;
-		gap: 0.5rem;
 		@include small {
 			width: 100%;
-			button {
-				width: 100%;
-			}
 		}
 	}
 }
