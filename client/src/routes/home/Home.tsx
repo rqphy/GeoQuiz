@@ -20,9 +20,17 @@ export default function Home() {
 		<>
 			<section className="hero">
 				<div className="hero__content">
-					<h1 className="hero__title">Bienvenue sur GeoQuizz!</h1>
+					<h1 className="hero__title">Bienvenue sur GeoQuiz!</h1>
 					<p className="hero__description">
-						Customisez votre quizz et jouez seul ou à plusieurs.
+						Mettez vos connaissances en géographie à l'épreuve dans
+						ce jeu de trivia multijoueur rapide ! Les joueurs
+						répondent à deux types de questions : trouver la
+						capitale d'un pays donné ou nommer le pays d'une
+						capitale donnée. Avec un chronomètre de 20 secondes,
+						tout le monde peut deviner, mais plus vous répondez vite
+						correctement, plus vous marquez de points. Affrontez vos
+						amis ou des joueurs du monde entier et grimpez dans le
+						classement&nbsp;!
 					</p>
 					<div className="hero__buttons">
 						<Button
