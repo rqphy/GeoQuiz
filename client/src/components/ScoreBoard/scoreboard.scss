@@ -86,7 +86,8 @@
 		}
 
 		&--guessed {
-			background-color: var(--color-valid);
+			background-color: var(--color-primary);
+			color: var(--color-secondary);
 		}
 
 		&--me {
