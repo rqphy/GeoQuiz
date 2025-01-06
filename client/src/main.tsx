@@ -6,17 +6,19 @@ import Home from "./routes/home/Home.tsx"
 import Header from "./components/Header/Header.tsx"
 import Lobby from "./routes/lobby/Lobby.tsx"
 import { SocketProvider } from "./contexts/SocketManager.tsx"
+import Model from "./routes/model/model.tsx"
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-	<SocketProvider>
-		<React.StrictMode>
-			<BrowserRouter>
-				<Header />
-				<Routes>
-					<Route index element={<Home />} />
-					<Route path="/lobby/:lobbyId" element={<Lobby />} />
-				</Routes>
-			</BrowserRouter>
-		</React.StrictMode>
-	</SocketProvider>
+    <SocketProvider>
+        <React.StrictMode>
+            <BrowserRouter>
+                <Header />
+                <Routes>
+                    <Route index element={<Home />} />
+                    <Route path="/lobby/:lobbyId" element={<Lobby />} />
+                    <Route path="/model" element={<Model />} />
+                </Routes>
+            </BrowserRouter>
+        </React.StrictMode>
+    </SocketProvider>
 )
