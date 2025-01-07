@@ -3,8 +3,7 @@ import { useRef } from "react"
 import * as THREE from "three"
 import earthVertexShader from "./earthShader/vertex.glsl"
 import earthFragmentShader from "./earthShader/fragment.glsl"
-import { useLoader } from "@react-three/fiber"
-import { OrbitControls } from "@react-three/drei"
+import { useLoader, useFrame } from "@react-three/fiber"
 
 export default function Experience() {
     const earthSpecularTexture = useLoader(
@@ -12,17 +11,28 @@ export default function Experience() {
         "/earth/specular.jpg"
     )
 
+    const earthRef = useRef<THREE.Mesh | null>(null)
+
+    useFrame(() => {
+        if (earthRef.current) {
+            earthRef.current.rotation.y += 0.0008
+        }
+    })
+
     return (
         <>
-            <OrbitControls />
             <directionalLight
                 position={[3, 2, 4]}
                 intensity={1}
                 color={"#ffffff"}
             />
             <ambientLight intensity={0.3} />
-            <mesh>
-                <sphereGeometry args={[2, 64, 64]} />
+            <mesh
+                ref={earthRef}
+                position={[0, -2, -1]}
+                rotation={[Math.PI / 6, 0, 0]}
+            >
+                <sphereGeometry args={[4, 64, 64]} />
                 <shaderMaterial
                     uniforms={{
                         uLandTexture: { value: earthSpecularTexture },
