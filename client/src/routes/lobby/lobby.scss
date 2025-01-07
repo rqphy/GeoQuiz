@@ -2,10 +2,10 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	margin-top: 4rem;
-
-	height: 80vh;
+	height: 100vh;
 	max-height: -webkit-fill-available;
+	padding-top: 6rem;
+	color: var(--color-primary);
 
 	@include small {
 		margin: 1rem 0 0;
