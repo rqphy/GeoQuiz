@@ -1,8 +1,5 @@
-varying vec3 vNormal;
-varying vec2 vUv;
-
+varying vec3 vPosition;
 void main() {
-    vNormal = normalize(normalMatrix * normal);
-    vUv = uv;
+    vPosition = normalize(position); // Normalize position for spherical mapping
     gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
 }
