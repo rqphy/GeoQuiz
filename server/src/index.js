@@ -171,15 +171,10 @@ io.on("connection", (socket) => {
 
         // Update score
         let points = (remainingTime * maxScoreInOneGuess) / roundDuration
-        points = Math.round(points)
+        points = Math.max(Math.round(points), 0)
         player.score += points
 
         io.to(lobbyId).emit("updateUserList", lobbies[lobbyId].users, player)
-
-        console.log(
-            lobbies[lobbyId].users.length,
-            lobbies[lobbyId].playersWithGoodAnswer.length
-        )
 
         if (
             lobbies[lobbyId].users.length ===
