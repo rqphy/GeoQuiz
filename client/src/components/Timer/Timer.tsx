@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, memo } from "react"
 import { useSocket } from "../../contexts/SocketManager"
 import { useParams } from "react-router-dom"
 
@@ -6,7 +6,7 @@ interface ITimerProps {
     targetDate: Date
 }
 
-export default function Timer({ targetDate }: ITimerProps) {
+export default memo(function Timer({ targetDate }: ITimerProps) {
     const [secondsLeft, setSecondsLeft] = useState<number>(19)
     const { methods } = useSocket()
     const { lobbyId } = useParams()
@@ -33,4 +33,4 @@ export default function Timer({ targetDate }: ITimerProps) {
     })
 
     return <div>{secondsLeft}s</div>
-}
+})
