@@ -12,7 +12,7 @@ import Quizz from "../../components/Quizz/Quiz"
 import UsernameForm from "../../components/UsernameForm/UsernameForm"
 import { ICountry } from "../../types/interfaces"
 import { Region } from "../../types/types"
-import { useLocation, useNavigate, useParams } from "react-router-dom"
+import { useLocation, useParams } from "react-router-dom"
 import PlayerList from "../../components/PlayerList/PlayerList"
 import Button from "../../components/Button/Button"
 import { useSocket } from "../../contexts/SocketManager"
@@ -30,7 +30,6 @@ const continentsData: Record<Region, ICountry[]> = {
 }
 
 export default function Lobby() {
-    const navigate = useNavigate()
     const location = useLocation()
     const { socket, methods, players } = useSocket()
     const { lobbyId } = useParams()
@@ -63,10 +62,6 @@ export default function Lobby() {
             setIsCreator(socket.id === newCreatorId)
         })
 
-        socket.on("error", () => {
-            navigate("/")
-        })
-
         socket.on("endGame", () => {
             setIsGameOn(false)
         })
@@ -76,7 +71,6 @@ export default function Lobby() {
             methods.leaveLobby(lobbyId, socket.id)
             socket.off("startGame")
             socket.off("updateCreator")
-            socket.off("error")
         }
     }, [lobbyId])
 

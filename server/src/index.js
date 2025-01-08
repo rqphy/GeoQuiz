@@ -6,6 +6,7 @@ import {
     startNewRound,
     handlePlayerLeavingLobby,
     resetScores,
+    createNewLobby,
 } from "./utils.js"
 
 dotenv.config()
@@ -23,10 +24,10 @@ export const io = new Server({
 
 export const lobbies = {}
 export const roundDuration = 20 // gotta update client side too Quiz.tsx
-const defaultRoundLimit = 10 // gotta update client side too LobbyForm.tsx
+export const defaultRoundLimit = 10 // gotta update client side too LobbyForm.tsx
 const minRoundLimit = 5
 const maxRoundLimit = 40
-const defaultRoundDelay = 3000
+export const defaultRoundDelay = 3000
 const fastRoundDelay = 1000
 const maxScoreInOneGuess = 10
 
@@ -38,19 +39,7 @@ io.on("connection", (socket) => {
 
     // Create Lobby
     socket.on("createLobby", () => {
-        const lobbyId = uuidv4() // Generate unique lobby ID
-        lobbies[lobbyId] = {
-            users: [],
-            creator: socket.id,
-            roundLimit: defaultRoundLimit,
-            playersWithGoodAnswer: [],
-            targetDate: null,
-            roundDelay: defaultRoundDelay,
-        } // Init lobby with empty user
-
-        // Emit back to the client
-        socket.emit("lobbyCreated", { lobbyId, creator: socket.id })
-        console.log(`User ${socket.id} created a new lobby: ${lobbyId}`)
+        createNewLobby(socket)
     })
 
     // Request join lobby
@@ -72,24 +61,24 @@ io.on("connection", (socket) => {
     // Join Lobby
     socket.on("joinLobby", (lobbyId, username) => {
         if (
-            lobbies[lobbyId] &&
-            !lobbies[lobbyId].users.some((user) => user.uuid === socket.id)
+            !lobbies[lobbyId] ||
+            lobbies[lobbyId].users.some((user) => user.uuid === socket.id)
         ) {
-            socket.join(lobbyId)
-            lobbies[lobbyId].users.push({
-                uuid: socket.id,
-                name: username,
-                score: 0,
-                hasGuessed: false,
-            })
-            io.to(lobbyId).emit("updateCreator", lobbies[lobbyId].creator)
-            console.log(`User ${socket.id} joined lobby ${lobbyId}`)
-
-            // Update users list
-            io.to(lobbyId).emit("updateUserList", lobbies[lobbyId].users)
-        } else {
-            socket.emit("error", "Lobby introuvable")
+            createNewLobby(socket, lobbyId)
         }
+
+        socket.join(lobbyId)
+        lobbies[lobbyId].users.push({
+            uuid: socket.id,
+            name: username,
+            score: 0,
+            hasGuessed: false,
+        })
+        io.to(lobbyId).emit("updateCreator", lobbies[lobbyId].creator)
+        console.log(`User ${socket.id} joined lobby ${lobbyId}`)
+
+        // Update users list
+        io.to(lobbyId).emit("updateUserList", lobbies[lobbyId].users)
     })
 
     // Start game with prefered settings

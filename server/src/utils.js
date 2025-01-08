@@ -1,99 +1,123 @@
-import { io, lobbies, roundDuration } from "./index.js"
+import {
+    io,
+    lobbies,
+    roundDuration,
+    defaultRoundLimit,
+    defaultRoundDelay,
+} from "./index.js"
+import { v4 as uuidv4 } from "uuid"
 
 export function resetScores(lobbyId) {
-	lobbies[lobbyId].users.map((user) => {
-		user.score = 0
-	})
+    lobbies[lobbyId].users.map((user) => {
+        user.score = 0
+    })
 }
 
 function resetHasGuessed(lobbyId) {
-	lobbies[lobbyId].users.map((user) => (user.hasGuessed = false))
+    lobbies[lobbyId].users.map((user) => (user.hasGuessed = false))
 }
 
 export function startNewRound(lobbyId, isNewRound) {
-	if (!lobbies[lobbyId]) return
-	if (isNewRound) {
-		lobbies[lobbyId].round += 1
-	}
-	resetHasGuessed(lobbyId)
-	io.to(lobbyId).emit("updateUserList", lobbies[lobbyId].users)
+    if (!lobbies[lobbyId]) return
+    if (isNewRound) {
+        lobbies[lobbyId].round += 1
+    }
+    resetHasGuessed(lobbyId)
+    io.to(lobbyId).emit("updateUserList", lobbies[lobbyId].users)
 
-	// Update values
-	const roundCount = lobbies[lobbyId].round
-	if (roundCount <= lobbies[lobbyId].roundLimit) {
-		// Start new Round
-		const gamemode = Math.random() > 0.5 ? "findCountry" : "findCapital"
-		const countryId = generateRandomCountryId(
-			lobbies[lobbyId].countriesList.length,
-			lobbies[lobbyId].lastCountriesId
-		)
+    // Update values
+    const roundCount = lobbies[lobbyId].round
+    if (roundCount <= lobbies[lobbyId].roundLimit) {
+        // Start new Round
+        const gamemode = Math.random() > 0.5 ? "findCountry" : "findCapital"
+        const countryId = generateRandomCountryId(
+            lobbies[lobbyId].countriesList.length,
+            lobbies[lobbyId].lastCountriesId
+        )
 
-		// reset round variables
-		lobbies[lobbyId].playersWithGoodAnswer = []
+        // reset round variables
+        lobbies[lobbyId].playersWithGoodAnswer = []
 
-		lobbies[lobbyId].lastCountriesId.push(countryId)
+        lobbies[lobbyId].lastCountriesId.push(countryId)
 
-		const targetDate = new Date(new Date().getTime() + roundDuration * 1000)
-		lobbies[lobbyId].targetDate = targetDate
+        const targetDate = new Date(new Date().getTime() + roundDuration * 1000)
+        lobbies[lobbyId].targetDate = targetDate
 
-		io.to(lobbyId).emit("startNewRound", {
-			serverRoundCount: roundCount,
-			countryId,
-			gamemode,
-			targetDate,
-		})
-	} else {
-		// Game end
-		io.to(lobbyId).emit("endGame")
-	}
+        io.to(lobbyId).emit("startNewRound", {
+            serverRoundCount: roundCount,
+            countryId,
+            gamemode,
+            targetDate,
+        })
+    } else {
+        // Game end
+        io.to(lobbyId).emit("endGame")
+    }
 }
 
 export function generateRandomCountryId(listLength, lastCountriesId) {
-	let newCountryId
+    let newCountryId
 
-	do {
-		newCountryId = Math.round(Math.random() * (listLength - 1))
-	} while (lastCountriesId.includes(newCountryId))
+    do {
+        newCountryId = Math.round(Math.random() * (listLength - 1))
+    } while (lastCountriesId.includes(newCountryId))
 
-	return newCountryId
+    return newCountryId
 }
 
 export function handlePlayerLeavingLobby(lobbyId, playerId) {
-	// Check if lobby exist
-	if (lobbies[lobbyId]) {
-		// Check if user is in it
-		if (
-			lobbies[lobbyId].users.filter((user) => user.uuid === playerId)
-				.length > 0
-		) {
-			// Remove user
-			lobbies[lobbyId].users = lobbies[lobbyId].users.filter(
-				(user) => user.uuid !== playerId
-			)
-			console.log(`User ${playerId} has left the lobby: ${lobbyId}`)
+    // Check if lobby exist
+    if (lobbies[lobbyId]) {
+        // Check if user is in it
+        if (
+            lobbies[lobbyId].users.filter((user) => user.uuid === playerId)
+                .length > 0
+        ) {
+            // Remove user
+            lobbies[lobbyId].users = lobbies[lobbyId].users.filter(
+                (user) => user.uuid !== playerId
+            )
+            console.log(`User ${playerId} has left the lobby: ${lobbyId}`)
 
-			// Delete lobby if empty
-			if (lobbies[lobbyId].users.length === 0) {
-				console.log(`Lobby: ${lobbyId} was empty and got deleted`)
-				delete lobbies[lobbyId]
-				return
-			}
+            // Delete lobby if empty
+            if (lobbies[lobbyId].users.length === 0) {
+                console.log(`Lobby: ${lobbyId} was empty and got deleted`)
+                delete lobbies[lobbyId]
+                return
+            }
 
-			// Define new creator
-			if (playerId === lobbies[lobbyId].creator) {
-				// Get another user id
-				const newCreator = lobbies[lobbyId].users[0].uuid
-				console.log(
-					`Lobby: ${lobbyId} has a new creator: ${newCreator}`
-				)
+            // Define new creator
+            if (playerId === lobbies[lobbyId].creator) {
+                // Get another user id
+                const newCreator = lobbies[lobbyId].users[0].uuid
+                console.log(
+                    `Lobby: ${lobbyId} has a new creator: ${newCreator}`
+                )
 
-				// Update room creator
-				lobbies[lobbyId].creator = newCreator
-				io.to(lobbyId).emit("updateCreator", newCreator)
-			}
+                // Update room creator
+                lobbies[lobbyId].creator = newCreator
+                io.to(lobbyId).emit("updateCreator", newCreator)
+            }
 
-			// Update users list
-			io.to(lobbyId).emit("updateUserList", lobbies[lobbyId].users)
-		}
-	}
+            // Update users list
+            io.to(lobbyId).emit("updateUserList", lobbies[lobbyId].users)
+        }
+    }
+}
+
+export function createNewLobby(socket, id) {
+    let lobbyId = id ?? uuidv4()
+
+    lobbies[lobbyId] = {
+        users: [],
+        creator: socket.id,
+        roundLimit: defaultRoundLimit,
+        playersWithGoodAnswer: [],
+        targetDate: null,
+        roundDelay: defaultRoundDelay,
+    } // Init lobby with empty user
+
+    // Emit back to the client
+    socket.emit("lobbyCreated", { lobbyId, creator: socket.id })
+    console.log(`User ${socket.id} created a new lobby: ${lobbyId}`)
 }
