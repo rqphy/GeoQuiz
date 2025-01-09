@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom"
 import "./quiz.scss"
 import { useSocket } from "../../contexts/SocketManager"
 import Button from "../Button/Button"
-import useGameStore from "../../stores/useGameStore"
+import { useGameStore } from "../../contexts/GameManager"
 import AnswerScreen from "../AnswerScreen/AnswerScreen"
 import Timer from "../Timer/Timer"
 

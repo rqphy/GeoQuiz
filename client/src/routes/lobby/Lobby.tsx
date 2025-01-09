@@ -17,7 +17,7 @@ import PlayerList from "../../components/PlayerList/PlayerList"
 import Button from "../../components/Button/Button"
 import { useSocket } from "../../contexts/SocketManager"
 import FinalScore from "../../components/FinalScore/FinalScore"
-import useGameStore from "../../stores/useGameStore"
+import { useGameStore } from "../../contexts/GameManager"
 import WrongAnswerDisplay from "../../components/WrongAnswerDisplay/WrongAnswerDisplay"
 
 const continentsData: Record<Region, ICountry[]> = {
