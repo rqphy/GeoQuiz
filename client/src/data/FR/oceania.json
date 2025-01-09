@@ -1,19 +1,19 @@
 [
-	{ "country_name": "Australie", "capital_name": "Canberra" },
-	{ "country_name": "Fidji", "capital_name": "Suva" },
-	{ "country_name": "Kiribati", "capital_name": "Tarawa" },
-	{ "country_name": "Îles Marshall", "capital_name": "Majuro" },
-	{ "country_name": "Micronésie", "capital_name": "Palikir" },
-	{ "country_name": "Nauru", "capital_name": "District de Yaren (de facto)" },
-	{ "country_name": "Nouvelle Zélande", "capital_name": "Wellington" },
-	{ "country_name": "Palaos", "capital_name": "Ngerulmud" },
-	{
-		"country_name": "Papouasie Nouvelle Guinée",
-		"capital_name": "Port Moresby"
-	},
-	{ "country_name": "Samoa", "capital_name": "Apia" },
-	{ "country_name": "Îles Salomon", "capital_name": "Honiara" },
-	{ "country_name": "Tonga", "capital_name": "Nuku'alofa" },
-	{ "country_name": "Tuvalu", "capital_name": "Funafuti" },
-	{ "country_name": "Vanuatu", "capital_name": "Port-Vila" }
+    { "country_name": "Australie", "capital_name": "Canberra" },
+    { "country_name": "Fidji", "capital_name": "Suva" },
+    { "country_name": "Îles Salomon", "capital_name": "Honiara" },
+    { "country_name": "Îles Marshall", "capital_name": "Majuro" },
+    { "country_name": "Kiribati", "capital_name": "Tarawa" },
+    { "country_name": "Micronésie", "capital_name": "Palikir" },
+    { "country_name": "Nauru", "capital_name": "District de Yaren (de facto)" },
+    { "country_name": "Nouvelle Zélande", "capital_name": "Wellington" },
+    { "country_name": "Palaos", "capital_name": "Ngerulmud" },
+    {
+        "country_name": "Papouasie Nouvelle Guinée",
+        "capital_name": "Port Moresby"
+    },
+    { "country_name": "Samoa", "capital_name": "Apia" },
+    { "country_name": "Tonga", "capital_name": "Nuku'alofa" },
+    { "country_name": "Tuvalu", "capital_name": "Funafuti" },
+    { "country_name": "Vanuatu", "capital_name": "Port-Vila" }
 ]

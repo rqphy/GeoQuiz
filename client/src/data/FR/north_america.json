@@ -1,34 +1,34 @@
 [
-	{ "country_name": "Antigua et Barbuda", "capital_name": "Saint John's" },
-	{ "country_name": "Bahamas", "capital_name": "Nassau" },
-	{ "country_name": "Barbade", "capital_name": "Bridgetown" },
-	{ "country_name": "Belize", "capital_name": "Belmopan" },
-	{ "country_name": "Canada", "capital_name": "Ottawa" },
-	{ "country_name": "Costa Rica", "capital_name": "San José" },
-	{ "country_name": "Cuba", "capital_name": "La Havane" },
-	{ "country_name": "Dominique", "capital_name": "Roseau" },
-	{
-		"country_name": "République dominicaine",
-		"capital_name": "Saint Domingue"
-	},
-	{ "country_name": "El Salvador", "capital_name": "San Salvador" },
-	{ "country_name": "Grenade", "capital_name": "Saint George's" },
-	{ "country_name": "Guatemala", "capital_name": "Guatemala" },
-	{ "country_name": "Haïti", "capital_name": "Port au Prince" },
-	{ "country_name": "Honduras", "capital_name": "Tegucigalpa" },
-	{ "country_name": "Jamaïque", "capital_name": "Kingston" },
-	{ "country_name": "Mexique", "capital_name": "Mexico" },
-	{ "country_name": "Nicaragua", "capital_name": "Managua" },
-	{ "country_name": "Panama", "capital_name": "Panama" },
-	{
-		"country_name": "Saint Christophe et Niévès",
-		"capital_name": "Basseterre"
-	},
-	{ "country_name": "Sainte Lucie", "capital_name": "Castries" },
-	{
-		"country_name": "Saint Vincent et les Grenadines",
-		"capital_name": "Kingstown"
-	},
-	{ "country_name": "Trinité et Tobago", "capital_name": "Port d'Espagne" },
-	{ "country_name": "États-Unis", "capital_name": "Washington, D.C." }
+    { "country_name": "Antigua et Barbuda", "capital_name": "Saint John's" },
+    { "country_name": "Bahamas", "capital_name": "Nassau" },
+    { "country_name": "Barbade", "capital_name": "Bridgetown" },
+    { "country_name": "Belize", "capital_name": "Belmopan" },
+    { "country_name": "Canada", "capital_name": "Ottawa" },
+    { "country_name": "Costa Rica", "capital_name": "San José" },
+    { "country_name": "Cuba", "capital_name": "La Havane" },
+    { "country_name": "Dominique", "capital_name": "Roseau" },
+    { "country_name": "El Salvador", "capital_name": "San Salvador" },
+    { "country_name": "États-Unis", "capital_name": "Washington, D.C." },
+    { "country_name": "Grenade", "capital_name": "Saint George's" },
+    { "country_name": "Guatemala", "capital_name": "Guatemala" },
+    { "country_name": "Haïti", "capital_name": "Port au Prince" },
+    { "country_name": "Honduras", "capital_name": "Tegucigalpa" },
+    { "country_name": "Jamaïque", "capital_name": "Kingston" },
+    { "country_name": "Mexique", "capital_name": "Mexico" },
+    { "country_name": "Nicaragua", "capital_name": "Managua" },
+    { "country_name": "Panama", "capital_name": "Panama" },
+    {
+        "country_name": "République dominicaine",
+        "capital_name": "Saint Domingue"
+    },
+    {
+        "country_name": "Saint Christophe et Niévès",
+        "capital_name": "Basseterre"
+    },
+    { "country_name": "Sainte Lucie", "capital_name": "Castries" },
+    {
+        "country_name": "Saint Vincent et les Grenadines",
+        "capital_name": "Kingstown"
+    },
+    { "country_name": "Trinité et Tobago", "capital_name": "Port d'Espagne" }
 ]
