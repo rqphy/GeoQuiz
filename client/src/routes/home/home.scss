@@ -1,74 +1,78 @@
 .hero {
-	position: relative;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: space-between;
-	height: 100vh;
-	height: --webkit-fill-available;
-	padding-top: 6rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 100vh;
+    height: --webkit-fill-available;
+    padding-top: 6rem;
 
-	&__content {
-		position: relative;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		width: 60%;
-		margin-top: 2rem;
-		gap: 3rem;
-		text-align: center;
-		color: var(--color-primary);
-		z-index: 2;
+    &__content {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 60%;
+        margin-top: 2rem;
+        gap: 3rem;
+        text-align: center;
+        color: var(--color-primary);
+        z-index: 2;
 
-		@include large {
-			width: 80%;
-		}
+        @include large {
+            width: 80%;
+        }
 
-		@include small {
-			width: 80%;
-		}
-	}
+        @include small {
+            width: 80%;
+        }
+    }
 
-	&__planet {
-		position: absolute;
-		bottom: 0;
-		left: 0;
-		width: 100%;
-		height: 50%;
+    &__planet {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 50%;
 
-		@include large {
-			height: 40%;
-		}
+        @include large {
+            height: 40%;
+        }
 
-		@include medium {
-			height: 40%;
-		}
-	}
+        @include medium {
+            height: 40%;
+        }
+    }
 
-	&__title {
-		font-size: 3.5rem;
+    &__title {
+        font-size: 3.5rem;
 
-		@include medium {
-			font-size: 3rem;
-		}
+        @include medium {
+            font-size: 3rem;
+        }
 
-		@include small {
-			height: auto;
-			line-height: 100%;
-			font-weight: 2.5rem;
-		}
-	}
+        @include small {
+            height: auto;
+            line-height: 100%;
+            font-weight: 2.5rem;
+        }
+    }
 
-	&__description {
-		font-size: 1.2rem;
-		line-height: 150%;
-	}
+    &__loading {
+        margin-top: 1rem;
+    }
 
-	&__play {
-		width: 200px;
-		@include small {
-			width: 100%;
-		}
-	}
+    &__description {
+        font-size: 1.2rem;
+        line-height: 150%;
+    }
+
+    &__play {
+        width: 200px;
+        @include small {
+            width: 100%;
+        }
+    }
 }
