@@ -12,12 +12,11 @@
 
 	.invite {
 		margin-top: 0;
-		background-color: var(--color-tertiary);
+		background-color: var(--color-light);
 		color: var(--color-primary);
 
 		&:hover {
-			background-color: var(--color-primary);
-			color: var(--color-secondary);
+			background-color: var(--color-secondary);
 		}
 
 		&--copied {
@@ -28,11 +27,19 @@
 	&__option {
 		position: relative;
 		width: 100%;
+		display: flex;
 		padding: 0.8rem 1rem;
 		cursor: pointer;
 		user-select: none;
+		color: var(--color-primary);
+
+		input {
+			height: 1rem;
+			margin: 0;
+		}
 
 		span {
+			display: block;
 			margin-left: 0.8rem;
 		}
 
@@ -43,12 +50,12 @@
 			height: 100%;
 			width: 100%;
 			border-radius: 0.5rem;
-			background-color: var(--color-tertiary-40);
+			background-color: var(--color-light);
 			z-index: -1;
 		}
 
 		input[type="checkbox"]:checked + .option__background {
-			background-color: var(--color-tertiary);
+			background-color: var(--color-secondary);
 		}
 	}
 
