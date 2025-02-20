@@ -49,7 +49,7 @@ export default function Home() {
 					</div>
 				</div>
 				<div className="hero__planet">
-					<Canvas camera={{ fov: 40, position: [0, 0, 6] }}>
+					<Canvas camera={{ fov: 40, position: [6, 0, 0] }}>
 						<Experience />
 					</Canvas>
 				</div>
