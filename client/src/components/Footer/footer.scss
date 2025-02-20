@@ -1,29 +1,10 @@
 .footer {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    padding: 0.5rem;
+	position: absolute;
+	bottom: 1rem;
+	left: 4rem;
 
-    color: var(--color-primary);
-
-    a {
-        color: var(--color-primary);
-    }
-
-    span {
-        font-weight: 700;
-    }
-
-    &__container {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-
-        p {
-            justify-self: center;
-            align-self: end;
-        }
-    }
+	@include medium {
+		left: 50%;
+		transform: translateX(-50%);
+	}
 }
