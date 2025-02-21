@@ -36,11 +36,13 @@
 		input {
 			height: 1rem;
 			margin: 0;
+			z-index: 1;
 		}
 
 		span {
 			display: block;
 			margin-left: 0.8rem;
+			z-index: 1;
 		}
 
 		.option__background {
@@ -51,7 +53,6 @@
 			width: 100%;
 			border-radius: 0.5rem;
 			background-color: var(--color-light);
-			z-index: -1;
 		}
 
 		input[type="checkbox"]:checked + .option__background {
