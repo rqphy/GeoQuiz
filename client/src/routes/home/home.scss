@@ -1,78 +1,99 @@
 .hero {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    height: 100vh;
-    height: --webkit-fill-available;
-    padding-top: 6rem;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+	height: 100vh;
+	height: --webkit-fill-available;
+	padding-top: 6rem;
 
-    &__content {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        width: 60%;
-        margin-top: 2rem;
-        gap: 3rem;
-        text-align: center;
-        color: var(--color-primary);
-        z-index: 2;
+	&__content {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		width: 80%;
+		margin-top: 2rem;
+		text-align: center;
+		z-index: 2;
+		font-weight: 200;
 
-        @include large {
-            width: 80%;
-        }
+		@include large {
+			width: 80%;
+		}
 
-        @include small {
-            width: 80%;
-        }
-    }
+		@include small {
+			width: 80%;
+		}
+	}
 
-    &__planet {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 50%;
+	&__planet {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		height: 40%;
 
-        @include large {
-            height: 40%;
-        }
+		@include large {
+			height: 40%;
+		}
 
-        @include medium {
-            height: 40%;
-        }
-    }
+		@include medium {
+			height: 40%;
+		}
+	}
 
-    &__title {
-        font-size: 3.5rem;
+	&__title {
+		position: relative;
+		font-family: var(--font-title);
+		font-size: 8rem;
+		color: var(--color-light);
 
-        @include medium {
-            font-size: 3rem;
-        }
+		&::after {
+			content: "";
+			position: absolute;
+			bottom: 0;
+			left: 50%;
+			height: 3px;
+			width: 100px;
+			transform: translate(-50%, 2rem);
+			background-color: var(--color-secondary);
+		}
 
-        @include small {
-            height: auto;
-            line-height: 100%;
-            font-weight: 2.5rem;
-        }
-    }
+		@include medium {
+			font-size: 5rem;
+		}
 
-    &__loading {
-        margin-top: 1rem;
-    }
+		@include small {
+			height: auto;
+			line-height: 100%;
+			font-weight: 2.5rem;
+		}
+	}
 
-    &__description {
-        font-size: 1.2rem;
-        line-height: 150%;
-    }
+	&__loading {
+		margin-top: 1rem;
+	}
 
-    &__play {
-        width: 200px;
-        @include small {
-            width: 100%;
-        }
-    }
+	&__description {
+		margin-top: 4rem;
+		font-size: 1.2rem;
+		line-height: 150%;
+	}
+
+	&__play.button {
+		width: 200px;
+		margin-top: 4rem;
+		background-color: var(--color-light);
+
+		&:hover {
+			background-color: var(--color-secondary);
+		}
+
+		@include small {
+			width: 100%;
+		}
+	}
 }

@@ -27,8 +27,8 @@ export default function GameForm({ expectedAnswer }: IGameFormProps) {
 	const [isRight, setIsRight] = useState<boolean>(false)
 
 	function startFailAnimation(): void {
-		setIsAnimating(false)
-		setTimeout(() => setIsAnimating(true), 0)
+		setIsAnimating(true)
+		setTimeout(() => setIsAnimating(false), 820) // Animation duration + small buffer
 	}
 
 	function handleSubmit(_event: React.FormEvent<HTMLFormElement>) {

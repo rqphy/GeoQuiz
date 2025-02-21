@@ -4,6 +4,7 @@
 	align-items: center;
 	gap: 2rem;
 	margin-top: 5rem;
+	z-index: 2;
 
 	@include small {
 		margin: 0;
@@ -18,12 +19,17 @@
 		gap: 1rem;
 		flex-direction: column;
 		align-items: center;
-
 	}
 
-	&__skip {
+	&__skip.button {
 		width: fit-content;
 		transform: scale(0.9);
-		background-color: var(--color-tertiary);
+		color: var(--color-light);
+		background-color: transparent;
+
+		&:hover {
+			color: var(--color-secondary);
+			transform: scale(1);
+		}
 	}
 }
