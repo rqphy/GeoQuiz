@@ -35,8 +35,6 @@ export default function WrongAnswerDisplay() {
 				{ id: id, text: answer, coords: generateRandomCoords() },
 			])
 
-			console.log("wrong answer received")
-
 			// update state
 			incrementWrongAnswersCount()
 
