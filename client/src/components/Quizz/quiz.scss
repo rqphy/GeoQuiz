@@ -4,6 +4,7 @@
 	align-items: center;
 	gap: 2rem;
 	margin-top: 5rem;
+	z-index: 2;
 
 	@include small {
 		margin: 0;
