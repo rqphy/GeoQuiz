@@ -6,7 +6,6 @@ import earthFragmentShader from "./earth/fragment.glsl"
 import atmosphereVertexShader from "./atmosphere/vertex.glsl"
 import atmosphereFragmentShader from "./atmosphere/fragment.glsl"
 import { useLoader, useFrame } from "@react-three/fiber"
-import { OrbitControls } from "@react-three/drei"
 
 export default function Experience() {
 	const earthDayTexture = useLoader(THREE.TextureLoader, "/earth/day.jpg")
