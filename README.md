@@ -1,10 +1,10 @@
 ## The Idea
 
-![Screenshot of the homepage](docs/home_geoquiz.png)
-
 I’ve never been good at geography. Over the last few months, my friends and I have been learning about countries and their capitals. So, let’s create a game where we can all compete and learn faster! Note that for now, the game will be available only in French.
 
 [Live](geoquiz.raphael-ferreira.com)
+
+![Screenshot of the homepage](docs/home_geoquiz.png)
 
 ## Features
 
