@@ -4,13 +4,13 @@ I’ve never been good at geography. Over the last few months, my friends and I 
 
 [Live](geoquiz.raphael-ferreira.com)
 
-![Screenshot of the homepage](https://github.com/rqphy/GeoQuiz/blob/main/docs/home_geoquiz.png)
+![Screenshot of the homepage](https://juq1maqrjs.ufs.sh/f/r1m4dnkvsK4Q25K5ZTkFD67XVkLdRcvO5PyeTwrtBjFGASsu)
 
 ## Features
 
 ### Quiz
 
-![Screenshot of the Quiz](https://github.com/rqphy/GeoQuiz/blob/main/docs/quiz_geoquiz.png)
+![Screenshot of the Quiz](https://juq1maqrjs.ufs.sh/f/r1m4dnkvsK4QFTe6ukZzABUTfbqW518nKuJZzVvsxwYkHaDl)
 
 The main part of the game will be the quiz. We’ll include two types of questions: the user will either need to find the country or the capital. Players will be able to create their own quiz by selecting specific continents and the number of rounds. We’ll create a script that:
 
@@ -23,7 +23,7 @@ The data will come from JSON files. For now, the game will be in French.
 
 ### Room System
 
-![Screenshot of the lobby](https://github.com/rqphy/GeoQuiz/blob/main/docs/lobby_geoquiz.png)
+![Screenshot of the lobby](https://juq1maqrjs.ufs.sh/f/r1m4dnkvsK4Qen0zPrUAMBGL7oqIV19N2HSP8CJ6lYbemfki)
 
 Recently, I’ve been experimenting with web sockets. Let’s create a room system so users can play with their friends. I plan to use Node.js and experiment with [Socket.io](http://socket.io/), an event-driven library for real-time web applications.
 
