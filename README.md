@@ -4,7 +4,7 @@ I’ve never been good at geography. Over the last few months, my friends and I 
 
 [Live](geoquiz.raphael-ferreira.com)
 
-![Screenshot of the homepage](docs/home_geoquiz.png)
+![Screenshot of the homepage](https://github.com/rqphy/GeoQuiz/blob/main/docs/home_geoquiz.png)
 
 ## Features
 
