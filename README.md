@@ -1,12 +1,16 @@
 ## The Idea
 
-I’ve never been good at geography. Over the last few months, my friends and I have been learning about countries and their capitals. So, let’s create a game where we can all compete and learn faster!
+![Screenshot of the homepage](docs/home_geoquiz.png)
+
+I’ve never been good at geography. Over the last few months, my friends and I have been learning about countries and their capitals. So, let’s create a game where we can all compete and learn faster! Note that for now, the game will be available only in French.
 
 [Live](geoquiz.raphael-ferreira.com)
 
 ## Features
 
 ### Quiz
+
+![Screenshot of the Quiz](docs/quiz_geoquiz.png)
 
 The main part of the game will be the quiz. We’ll include two types of questions: the user will either need to find the country or the capital. Players will be able to create their own quiz by selecting specific continents and the number of rounds. We’ll create a script that:
 
@@ -18,6 +22,8 @@ Each time a player provides a correct answer, we’ll update the scoreboard and 
 The data will come from JSON files. For now, the game will be in French.
 
 ### Room System
+
+![Screenshot of the lobby](docs/lobby_geoquiz.png)
 
 Recently, I’ve been experimenting with web sockets. Let’s create a room system so users can play with their friends. I plan to use Node.js and experiment with [Socket.io](http://socket.io/), an event-driven library for real-time web applications.
 
