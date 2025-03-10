@@ -29,11 +29,11 @@
 
 	&.disabled {
 		background-color: var(--color-grey);
+		color: var(--color-light);
 		cursor: not-allowed;
 
 		&:hover {
 			background-color: var(--color-grey);
-			color: var(--color-light);
 			transform: none;
 		}
 	}
