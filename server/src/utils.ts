@@ -6,39 +6,44 @@ import {
     defaultRoundDelay,
 } from "./index.js"
 import { v4 as uuidv4 } from "uuid"
+import type { GameSocket, Player } from "./types.js"
 
-export function resetScores(lobbyId) {
-    lobbies[lobbyId].users.forEach((user) => {
+export function resetScores(lobbyId: string): void {
+    const lobby = lobbies[lobbyId]
+    if (!lobby) return
+    lobby.users.forEach((user: Player) => {
         user.score = 0
     })
 }
 
-function resetHasGuessed(lobbyId) {
-    lobbies[lobbyId].users.forEach((user) => (user.hasGuessed = false))
+function resetHasGuessed(lobbyId: string): void {
+    const lobby = lobbies[lobbyId]
+    if (!lobby) return
+    lobby.users.forEach((user: Player) => (user.hasGuessed = false))
 }
 
-export function startNewRound(lobbyId, isNewRound) {
+export function startNewRound(lobbyId: string, isNewRound: boolean): void {
     if (!lobbies[lobbyId]) return
     if (isNewRound) {
-        lobbies[lobbyId].round += 1
+        lobbies[lobbyId].round = (lobbies[lobbyId].round ?? 0) + 1
     }
     resetHasGuessed(lobbyId)
     io.to(lobbyId).emit("updateUserList", lobbies[lobbyId].users)
 
     // Update values
-    const roundCount = lobbies[lobbyId].round
+    const roundCount = lobbies[lobbyId].round ?? 0
     if (roundCount <= lobbies[lobbyId].roundLimit) {
         // Start new Round
         const gamemode = Math.random() > 0.5 ? "findCountry" : "findCapital"
         const countryId = generateRandomCountryId(
-            lobbies[lobbyId].countriesList.length,
-            lobbies[lobbyId].lastCountriesId
+            lobbies[lobbyId].countriesList?.length ?? 0,
+            lobbies[lobbyId].lastCountriesId ?? []
         )
 
         // reset round variables
         lobbies[lobbyId].playersWithGoodAnswer = []
 
-        lobbies[lobbyId].lastCountriesId.push(countryId)
+        lobbies[lobbyId].lastCountriesId?.push(countryId)
 
         const targetDate = new Date(new Date().getTime() + roundDuration * 1000)
         lobbies[lobbyId].targetDate = targetDate
@@ -55,13 +60,13 @@ export function startNewRound(lobbyId, isNewRound) {
     }
 }
 
-export function generateRandomCountryId(listLength, lastCountriesId) {
+export function generateRandomCountryId(listLength: number, lastCountriesId: number[]): number {
     // Safeguard: reset if all countries have been used to prevent infinite loop
     if (lastCountriesId.length >= listLength) {
         lastCountriesId.length = 0
     }
 
-    let newCountryId
+    let newCountryId: number
 
     do {
         newCountryId = Math.round(Math.random() * (listLength - 1))
@@ -70,14 +75,14 @@ export function generateRandomCountryId(listLength, lastCountriesId) {
     return newCountryId
 }
 
-export function handlePlayerLeavingLobby(lobbyId, playerId) {
+export function handlePlayerLeavingLobby(lobbyId: string, playerId: string): void {
     // Check if lobby exist
     if (lobbies[lobbyId]) {
         // Check if user is in it
-        if (lobbies[lobbyId].users.some((user) => user.uuid === playerId)) {
+        if (lobbies[lobbyId].users.some((user: Player) => user.uuid === playerId)) {
             // Remove user
             lobbies[lobbyId].users = lobbies[lobbyId].users.filter(
-                (user) => user.uuid !== playerId
+                (user: Player) => user.uuid !== playerId
             )
             console.log(`User ${playerId} has left the lobby: ${lobbyId}`)
 
@@ -91,7 +96,9 @@ export function handlePlayerLeavingLobby(lobbyId, playerId) {
             // Define new creator
             if (playerId === lobbies[lobbyId].creator) {
                 // Get another user id
-                const newCreator = lobbies[lobbyId].users[0].uuid
+                const firstUser = lobbies[lobbyId].users[0]
+                if (!firstUser) return
+                const newCreator = firstUser.uuid
                 console.log(
                     `Lobby: ${lobbyId} has a new creator: ${newCreator}`
                 )
@@ -107,8 +114,8 @@ export function handlePlayerLeavingLobby(lobbyId, playerId) {
     }
 }
 
-export function createNewLobby(socket, id) {
-    let lobbyId = id ?? uuidv4()
+export function createNewLobby(socket: GameSocket, id?: string): void {
+    const lobbyId = id ?? uuidv4()
 
     lobbies[lobbyId] = {
         users: [],
@@ -117,7 +124,7 @@ export function createNewLobby(socket, id) {
         playersWithGoodAnswer: [],
         targetDate: null,
         roundDelay: defaultRoundDelay,
-    } // Init lobby with empty user
+    }
 
     // Emit back to the client
     socket.emit("lobbyCreated", { lobbyId, creator: socket.id })

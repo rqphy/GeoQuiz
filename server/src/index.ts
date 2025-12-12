@@ -1,5 +1,4 @@
 import { Server } from "socket.io"
-import { v4 as uuidv4 } from "uuid"
 import dotenv from "dotenv"
 import {
     generateRandomCountryId,
@@ -8,21 +7,22 @@ import {
     resetScores,
     createNewLobby,
 } from "./utils.js"
+import type { Lobbies } from "./types.js"
 
 dotenv.config()
 
-const PORT = process.env.PORT || 3000
+const PORT = Number(process.env.PORT) || 3000
 const origin = process.env.BASE_FRONT_URL || "http://localhost:5173"
 
 export const io = new Server({
     cors: {
         origin: origin,
         methods: ["GET", "POST"],
-        credentials: true, // Allow cookies or authentication headers
+        credentials: true,
     },
 })
 
-export const lobbies = {}
+export const lobbies: Lobbies = {}
 export const roundDuration = 20 // gotta update client side too Quiz.tsx
 export const defaultRoundLimit = 20 // gotta update client side too LobbyForm.tsx
 const minRoundLimit = 5
@@ -43,15 +43,13 @@ io.on("connection", (socket) => {
     })
 
     // Request join lobby
-    socket.on("requestLobbyAccess", (lobbyId) => {
+    socket.on("requestLobbyAccess", (lobbyId: string) => {
         console.log(`User ${socket.id} requested to join lobby: ${lobbyId}`)
-        if (
-            lobbies[lobbyId] &&
-            !lobbies[lobbyId].users.some((user) => user.uuid === socket.id)
-        ) {
+        const lobby = lobbies[lobbyId]
+        if (lobby && !lobby.users.some((user) => user.uuid === socket.id)) {
             socket.emit("requestAccepted", {
                 lobbyId,
-                creator: lobbies[lobbyId].creator,
+                creator: lobby.creator,
             })
         } else {
             socket.emit("error", "Lobby introuvable")
@@ -59,7 +57,7 @@ io.on("connection", (socket) => {
     })
 
     // Join Lobby
-    socket.on("joinLobby", (lobbyId, username) => {
+    socket.on("joinLobby", (lobbyId: string, username: string) => {
         if (
             !lobbies[lobbyId] ||
             lobbies[lobbyId].users.some((user) => user.uuid === socket.id)
@@ -67,50 +65,61 @@ io.on("connection", (socket) => {
             createNewLobby(socket, lobbyId)
         }
 
+        const lobby = lobbies[lobbyId]
+        if (!lobby) return
+
         socket.join(lobbyId)
-        lobbies[lobbyId].users.push({
+        lobby.users.push({
             uuid: socket.id,
             name: username,
             score: 0,
             hasGuessed: false,
         })
-        io.to(lobbyId).emit("updateCreator", lobbies[lobbyId].creator)
+        io.to(lobbyId).emit("updateCreator", lobby.creator)
         console.log(`User ${socket.id} joined lobby ${lobbyId}`)
 
         // Update users list
-        io.to(lobbyId).emit("updateUserList", lobbies[lobbyId].users)
+        io.to(lobbyId).emit("updateUserList", lobby.users)
     })
 
-    // Start game with prefered settings
+    // Start game with preferred settings
     socket.on(
         "setupGame",
-        ({ lobbyId, countriesList, roundLimit, fastmode }) => {
+        ({ lobbyId, countriesList, roundLimit, fastmode }: {
+            lobbyId: string
+            countriesList: unknown[]
+            roundLimit: number
+            fastmode: boolean
+        }) => {
+            const lobby = lobbies[lobbyId]
+            if (!lobby) return
+
             // Init round
-            lobbies[lobbyId].round = 1
-            lobbies[lobbyId].roundLimit = Math.min(
+            lobby.round = 1
+            lobby.roundLimit = Math.min(
                 Math.max(Number(roundLimit), minRoundLimit),
                 maxRoundLimit
             )
-            lobbies[lobbyId].countriesList = countriesList
-            lobbies[lobbyId].lastCountriesId = []
+            lobby.countriesList = countriesList
+            lobby.lastCountriesId = []
             const countryId = generateRandomCountryId(
                 countriesList.length,
-                lobbies[lobbyId].lastCountriesId
+                lobby.lastCountriesId
             )
 
             if (fastmode) {
-                lobbies[lobbyId].roundDelay = fastRoundDelay
+                lobby.roundDelay = fastRoundDelay
             }
 
             // reset scores & variables
-            lobbies[lobbyId].playersWithGoodAnswer = []
+            lobby.playersWithGoodAnswer = []
             resetScores(lobbyId)
-            io.to(lobbyId).emit("updateUserList", lobbies[lobbyId].users)
+            io.to(lobbyId).emit("updateUserList", lobby.users)
 
             const targetDate = new Date(
                 new Date().getTime() + roundDuration * 1000
             )
-            lobbies[lobbyId].targetDate = targetDate
+            lobby.targetDate = targetDate
 
             // Start game
             io.to(lobbyId).emit("startGame", {
@@ -122,9 +131,10 @@ io.on("connection", (socket) => {
         }
     )
 
-    socket.on("timerEnded", (lobbyId, playerId) => {
-        if (!lobbies[lobbyId] || playerId !== lobbies[lobbyId].creator) return
-        const firstPlayer = lobbies[lobbyId].playersWithGoodAnswer[0]
+    socket.on("timerEnded", (lobbyId: string, playerId: string) => {
+        const lobby = lobbies[lobbyId]
+        if (!lobby || playerId !== lobby.creator) return
+        const firstPlayer = lobby.playersWithGoodAnswer[0]
 
         io.to(lobbyId).emit(
             "endRound",
@@ -135,28 +145,26 @@ io.on("connection", (socket) => {
         // Start new round
         setTimeout(() => {
             startNewRound(lobbyId, true)
-        }, lobbies[lobbyId].roundDelay)
+        }, lobby.roundDelay)
     })
 
-    socket.on("goodAnswer", (lobbyId, playerId) => {
-        if (!lobbies[lobbyId]) return
+    socket.on("goodAnswer", (lobbyId: string, playerId: string) => {
+        const lobby = lobbies[lobbyId]
+        if (!lobby) return
 
-        const player = lobbies[lobbyId].users.find(
-            (user) => user.uuid === playerId
-        )
+        const player = lobby.users.find((user) => user.uuid === playerId)
         if (!player) return
 
         player.hasGuessed = true
 
+        if (!lobby.targetDate) return
         let remainingTime =
-            (lobbies[lobbyId].targetDate.getTime() - new Date().getTime()) /
-            1000
+            (lobby.targetDate.getTime() - new Date().getTime()) / 1000
 
         let guessTime = roundDuration - remainingTime
-
         guessTime = Math.trunc(guessTime * 100) / 100
 
-        lobbies[lobbyId].playersWithGoodAnswer.push({
+        lobby.playersWithGoodAnswer.push({
             name: player.name,
             guessTime: guessTime,
         })
@@ -166,37 +174,36 @@ io.on("connection", (socket) => {
         points = Math.max(Math.round(points), 0)
         player.score += points
 
-        io.to(lobbyId).emit("updateUserList", lobbies[lobbyId].users, player)
+        io.to(lobbyId).emit("updateUserList", lobby.users, player)
 
-        if (
-            lobbies[lobbyId].users.length ===
-            lobbies[lobbyId].playersWithGoodAnswer.length
-        ) {
-            const firstPlayer = lobbies[lobbyId].playersWithGoodAnswer[0]
-            io.to(lobbyId).emit(
-                "endRound",
-                firstPlayer.name,
-                firstPlayer.guessTime
-            )
+        if (lobby.users.length === lobby.playersWithGoodAnswer.length) {
+            const firstPlayer = lobby.playersWithGoodAnswer[0]
+            if (firstPlayer) {
+                io.to(lobbyId).emit(
+                    "endRound",
+                    firstPlayer.name,
+                    firstPlayer.guessTime
+                )
+            }
 
             // Start new round
             setTimeout(() => {
                 startNewRound(lobbyId, true)
-            }, lobbies[lobbyId].roundDelay)
+            }, lobby.roundDelay)
         }
     })
 
-    socket.on("newRound", (lobbyId) => {
+    socket.on("newRound", (lobbyId: string) => {
         startNewRound(lobbyId, false)
     })
 
-    socket.on("badAnswer", (lobbyId, answer) => {
+    socket.on("badAnswer", (lobbyId: string, answer: string) => {
         if (!lobbies[lobbyId]) return
         io.to(lobbyId).emit("wrongAnswer", answer)
     })
 
     // leave lobby
-    socket.on("leaveLobby", (lobbyId, playerId) => {
+    socket.on("leaveLobby", (lobbyId: string, playerId: string) => {
         handlePlayerLeavingLobby(lobbyId, playerId)
     })
 
