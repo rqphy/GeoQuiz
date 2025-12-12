@@ -2,7 +2,7 @@
 	"type": "module",
 	"scripts": {
 		"dev": "tsx watch src/index.ts",
-		"start": "node src/index.js"
+		"start": "tsx src/index.ts"
 	},
 	"devDependencies": {
 		"@types/node": "^25.0.1",
