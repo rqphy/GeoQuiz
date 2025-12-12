@@ -8,13 +8,13 @@ import {
 import { v4 as uuidv4 } from "uuid"
 
 export function resetScores(lobbyId) {
-    lobbies[lobbyId].users.map((user) => {
+    lobbies[lobbyId].users.forEach((user) => {
         user.score = 0
     })
 }
 
 function resetHasGuessed(lobbyId) {
-    lobbies[lobbyId].users.map((user) => (user.hasGuessed = false))
+    lobbies[lobbyId].users.forEach((user) => (user.hasGuessed = false))
 }
 
 export function startNewRound(lobbyId, isNewRound) {
@@ -56,6 +56,11 @@ export function startNewRound(lobbyId, isNewRound) {
 }
 
 export function generateRandomCountryId(listLength, lastCountriesId) {
+    // Safeguard: reset if all countries have been used to prevent infinite loop
+    if (lastCountriesId.length >= listLength) {
+        lastCountriesId.length = 0
+    }
+
     let newCountryId
 
     do {
@@ -69,10 +74,7 @@ export function handlePlayerLeavingLobby(lobbyId, playerId) {
     // Check if lobby exist
     if (lobbies[lobbyId]) {
         // Check if user is in it
-        if (
-            lobbies[lobbyId].users.filter((user) => user.uuid === playerId)
-                .length > 0
-        ) {
+        if (lobbies[lobbyId].users.some((user) => user.uuid === playerId)) {
             // Remove user
             lobbies[lobbyId].users = lobbies[lobbyId].users.filter(
                 (user) => user.uuid !== playerId

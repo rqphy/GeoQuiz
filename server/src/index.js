@@ -139,10 +139,13 @@ io.on("connection", (socket) => {
     })
 
     socket.on("goodAnswer", (lobbyId, playerId) => {
-        // Update score
+        if (!lobbies[lobbyId]) return
+
         const player = lobbies[lobbyId].users.find(
             (user) => user.uuid === playerId
         )
+        if (!player) return
+
         player.hasGuessed = true
 
         let remainingTime =
@@ -158,7 +161,7 @@ io.on("connection", (socket) => {
             guessTime: guessTime,
         })
 
-        // Update score
+        // Calculate and update score
         let points = (remainingTime * maxScoreInOneGuess) / roundDuration
         points = Math.max(Math.round(points), 0)
         player.score += points
@@ -188,6 +191,7 @@ io.on("connection", (socket) => {
     })
 
     socket.on("badAnswer", (lobbyId, answer) => {
+        if (!lobbies[lobbyId]) return
         io.to(lobbyId).emit("wrongAnswer", answer)
     })
 
