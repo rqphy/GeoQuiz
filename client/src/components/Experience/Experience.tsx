@@ -22,7 +22,7 @@ export default function Experience() {
 	useFrame(() => {
 		if (earthRef.current) {
 			// earthRef.current.rotation.y += 0.0001
-			earthRef.current.rotation.x += 0.0001
+			earthRef.current.rotation.x += 0.00007
 		}
 	})
 
@@ -33,7 +33,7 @@ export default function Experience() {
 				<shaderMaterial
 					uniforms={{
 						uDayTexture: new THREE.Uniform(earthDayTexture),
-						uDotSize: new THREE.Uniform(8.0),
+						uDotSize: new THREE.Uniform(10.0),
 					}}
 					vertexShader={earthVertexShader}
 					fragmentShader={earthFragmentShader}

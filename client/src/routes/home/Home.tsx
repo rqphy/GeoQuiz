@@ -32,8 +32,8 @@ export default function Home() {
 						<Gamepad2Icon />
 					</Button>
 				</div>
-				<div className="absolute bottom-0 left-0 w-full h-[70vh]">
-					<Canvas camera={{ fov: 40, position: [6, 0, 0] }}>
+				<div className="absolute bottom-0 left-0 w-full h-full">
+					<Canvas camera={{ fov: 30, position: [6, 0, 0] }}>
 						<Experience />
 					</Canvas>
 				</div>
