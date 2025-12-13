@@ -3,7 +3,7 @@ import { Canvas } from "@react-three/fiber"
 import Experience from "../../components/Experience/Experience"
 import { useSocket } from "../../contexts/SocketManager"
 import { Button } from "../../components/ui/button"
-import { Gamepad2Icon } from "lucide-react"
+import { Gamepad2Icon, ChevronDown, Loader2, AlertTriangle } from "lucide-react"
 
 export default function Home() {
 	const navigate = useNavigate()
@@ -18,6 +18,16 @@ export default function Home() {
 
 	return (
 		<>
+			{/* Server connection warning banner */}
+			{!isConnected && (
+				<div className="fixed top-0 left-0 right-0 z-50 bg-amber-500/90 text-black py-2 px-4 flex items-center justify-center gap-2 text-sm font-medium animate-in slide-in-from-top duration-300">
+					<AlertTriangle className="w-4 h-4" />
+					<span>
+						Connexion au serveur en cours... Veuillez patienter.
+					</span>
+					<Loader2 className="w-4 h-4 animate-spin" />
+				</div>
+			)}
 			<section className="flex flex-col items-center justify-center h-screen bg-black">
 				<div className="text-center z-10">
 					<h1 className="text-6xl md:text-8xl uppercase font-family font-light">
@@ -27,15 +37,32 @@ export default function Home() {
 						onClick={handleCreateLobby}
 						variant="secondary"
 						className="mt-8 hover:cursor-pointer"
+						disabled={!isConnected}
 					>
-						Lancez une partie
-						<Gamepad2Icon />
+						{isConnected ? (
+							<>
+								Lancez une partie
+								<Gamepad2Icon />
+							</>
+						) : (
+							<>
+								Connexion au serveur...
+								<Loader2 className="animate-spin" />
+							</>
+						)}
 					</Button>
 				</div>
 				<div className="absolute bottom-0 left-0 w-full h-full">
 					<Canvas camera={{ fov: 30, position: [6, 0, 0] }}>
 						<Experience />
 					</Canvas>
+				</div>
+				{/* Scroll indicator */}
+				<div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 animate-bounce">
+					<span className="text-xs uppercase tracking-widest text-secondary">
+						Scroll
+					</span>
+					<ChevronDown className="w-5 h-5 text-secondary" />
 				</div>
 			</section>
 		</>
