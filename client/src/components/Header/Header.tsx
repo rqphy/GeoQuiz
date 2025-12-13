@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
 export default function Header() {
 	return (
-		<header className="flex justify-between px-16 py-10 uppercase font-family-secondary">
+		<header className="fixed top-0 z-50 flex w-full justify-between px-16 py-10 uppercase font-family-secondary">
 			<Link to={"/"} id="homelink" className="hover:underline">
 				( Home )
 			</Link>

@@ -1,10 +1,7 @@
-import "./experience.scss"
 import { useRef } from "react"
 import * as THREE from "three"
 import earthVertexShader from "./earth/vertex.glsl"
 import earthFragmentShader from "./earth/fragment.glsl"
-import atmosphereVertexShader from "./atmosphere/vertex.glsl"
-import atmosphereFragmentShader from "./atmosphere/fragment.glsl"
 import { useLoader, useFrame } from "@react-three/fiber"
 
 export default function Experience() {
@@ -24,61 +21,22 @@ export default function Experience() {
 
 	useFrame(() => {
 		if (earthRef.current) {
-			earthRef.current.rotation.y += 0.0008
+			// earthRef.current.rotation.y += 0.0001
+			earthRef.current.rotation.x += 0.0001
 		}
 	})
 
 	return (
 		<>
-			<mesh
-				ref={earthRef}
-				position={[0, -2.3, 0]}
-				rotation={[-Math.PI / 10, 0, 0]}
-			>
+			<mesh ref={earthRef} position={[0, -2.3, 0]} rotation={[0, 0, 0]}>
 				<sphereGeometry args={[4, 64, 64]} />
 				<shaderMaterial
 					uniforms={{
 						uDayTexture: new THREE.Uniform(earthDayTexture),
-						uNightTexture: new THREE.Uniform(earthNightTexture),
-						uSpecularCloudsTexture: new THREE.Uniform(
-							earthSpecularCloudsTexture
-						),
-						uSunDirection: new THREE.Uniform(
-							new THREE.Vector3(0, 0, 1)
-						),
-						uAtmosphereDayColor: new THREE.Uniform(
-							new THREE.Color("#00aaff")
-						),
-						uAtmosphereTwilightColor: new THREE.Uniform(
-							new THREE.Color("#ff3300")
-						),
+						uDotSize: new THREE.Uniform(8.0),
 					}}
 					vertexShader={earthVertexShader}
 					fragmentShader={earthFragmentShader}
-				/>
-			</mesh>
-			<mesh
-				position={[0, -2.3, 0]}
-				rotation={[0, 0, Math.PI / 8]}
-				scale={[1.04, 1.04, 1.04]}
-			>
-				<sphereGeometry args={[4, 64, 64]} />
-				<shaderMaterial
-					transparent={true}
-					side={THREE.BackSide}
-					uniforms={{
-						uSunDirection: new THREE.Uniform(
-							new THREE.Vector3(0, 0, 1)
-						),
-						uAtmosphereDayColor: new THREE.Uniform(
-							new THREE.Color("#00aaff")
-						),
-						uAtmosphereTwilightColor: new THREE.Uniform(
-							new THREE.Color("#ff3300")
-						),
-					}}
-					vertexShader={atmosphereVertexShader}
-					fragmentShader={atmosphereFragmentShader}
 				/>
 			</mesh>
 		</>

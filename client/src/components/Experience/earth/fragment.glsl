@@ -1,9 +1,5 @@
 uniform sampler2D uDayTexture;
-uniform sampler2D uNightTexture;
-uniform sampler2D uSpecularCloudsTexture;
-uniform vec3 uSunDirection;
-uniform vec3 uAtmosphereDayColor;
-uniform vec3 uAtmosphereTwilightColor;
+uniform float uDotSize;
 
 varying vec2 vUv;
 varying vec3 vNormal;
@@ -11,45 +7,31 @@ varying vec3 vPosition;
 
 void main()
 {
-    vec3 viewDirection = normalize(vPosition - cameraPosition);
-    vec3 normal = normalize(vNormal);
-    vec3 color = vec3(0.0);
-
-    // Sun orientation
-    float sunOrientation = dot(uSunDirection, normal);
-
-    // Day / night color
-    float dayMix = smoothstep(- 0.25, 0.5, sunOrientation);
-    vec3 dayColor = texture(uDayTexture, vUv).rgb;
-    vec3 nightColor = texture(uNightTexture, vUv).rgb;
-    color = mix(nightColor, dayColor, dayMix);
-
-    // Specular cloud color
-    vec2 specularCloudsColor = texture(uSpecularCloudsTexture, vUv).rg;
-
-    // Clouds
-    float cloudsMix = smoothstep(0.5, 1.0, specularCloudsColor.g);
-    cloudsMix *= dayMix;
-    color = mix(color, vec3(1.0), cloudsMix);
-
-    // Fresnel
-    float fresnel = dot(viewDirection, normal) + 1.0;
-    fresnel = pow(fresnel, 2.0);
-
-    // Atmosphere
-    float atmosphereDayMix = smoothstep(- 0.5, 1.0, sunOrientation);
-    vec3 atmosphereColor = mix(uAtmosphereTwilightColor, uAtmosphereDayColor, atmosphereDayMix);
-    color = mix(color, atmosphereColor, fresnel * atmosphereDayMix);
-
-    // Specular
-    vec3 reflection = reflect(- uSunDirection, normal);
-    float specular = - dot(reflection, viewDirection);
-    specular = max(specular, 0.0);
-    specular = pow(specular, 32.0);
-    specular *= specularCloudsColor.r;
-
-    vec3 specularColor = mix(vec3(1.0), atmosphereColor, fresnel);
-    color += specular * specularColor;
+    // Sample texture at actual UV position (rotates with earth)
+    vec3 texColor = texture(uDayTexture, vUv).rgb;
+    
+    // Convert to grayscale (luminance)
+    float gray = dot(texColor, vec3(0.299, 0.587, 0.114));
+    
+    // Screen-space halftone grid using fragment coordinates
+    // This keeps dots fixed on screen while earth rotates underneath
+    vec2 screenPos = gl_FragCoord.xy;
+    float cellSize = uDotSize;
+    vec2 gridPos = screenPos / cellSize;
+    
+    // Distance from current pixel to nearest cell center
+    vec2 cellCenter = floor(gridPos) + 0.5;
+    float dist = distance(gridPos, cellCenter);
+    
+    // Calculate dot radius based on luminance
+    // Brighter areas = larger dots (white), darker = smaller/no dots
+    float radius = gray * 0.5;
+    
+    // Create dot with smooth edge
+    float dotMask = 1.0 - smoothstep(radius - 0.05, radius + 0.05, dist);
+    
+    // White dots on black background
+    vec3 color = vec3(dotMask);
 
     // Final color
     gl_FragColor = vec4(color, 1.0);
