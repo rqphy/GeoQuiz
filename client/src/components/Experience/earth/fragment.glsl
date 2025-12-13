@@ -1,5 +1,7 @@
 uniform sampler2D uDayTexture;
 uniform float uDotSize;
+uniform vec3 uDotColor;
+uniform vec3 uBackgroundColor;
 
 varying vec2 vUv;
 varying vec3 vNormal;
@@ -31,7 +33,8 @@ void main()
     float dotMask = 1.0 - smoothstep(radius - 0.05, radius + 0.05, dist);
     
     // Light grey dots on black background
-    vec3 color = vec3(dotMask * 0.4);
+    // vec3 color = vec3(dotMask * 0.4);
+    vec3 color = mix(uBackgroundColor, uDotColor, dotMask);
 
     // Final color
     gl_FragColor = vec4(color, 1.0);

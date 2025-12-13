@@ -4,6 +4,8 @@ import earthVertexShader from "./earth/vertex.glsl"
 import earthFragmentShader from "./earth/fragment.glsl"
 import { useLoader, useFrame } from "@react-three/fiber"
 
+const dotColor = [3 / 255, 4 / 255, 94 / 255]
+
 export default function Experience() {
 	const earthDayTexture = useLoader(THREE.TextureLoader, "/earth/day.jpg")
 	earthDayTexture.colorSpace = THREE.SRGBColorSpace
@@ -34,6 +36,8 @@ export default function Experience() {
 					uniforms={{
 						uDayTexture: new THREE.Uniform(earthDayTexture),
 						uDotSize: new THREE.Uniform(10.0),
+						uDotColor: new THREE.Uniform(dotColor),
+						uBackgroundColor: new THREE.Uniform([0, 0, 0]),
 					}}
 					vertexShader={earthVertexShader}
 					fragmentShader={earthFragmentShader}

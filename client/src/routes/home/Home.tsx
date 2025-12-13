@@ -18,7 +18,6 @@ export default function Home() {
 
 	return (
 		<>
-			{/* Server connection warning banner */}
 			{!isConnected && (
 				<div className="fixed top-0 left-0 right-0 z-50 bg-amber-500/90 text-black py-2 px-4 flex items-center justify-center gap-2 text-sm font-medium animate-in slide-in-from-top duration-300">
 					<AlertTriangle className="w-4 h-4" />
@@ -28,15 +27,16 @@ export default function Home() {
 					<Loader2 className="w-4 h-4 animate-spin" />
 				</div>
 			)}
+
 			<section className="flex flex-col items-center justify-center h-screen bg-black">
 				<div className="text-center z-10">
-					<h1 className="text-6xl md:text-8xl uppercase font-family font-light">
+					<h1 className="text-8xl md:text-8xl uppercase font-family font-light text-secondary">
 						GEOQUIZ
 					</h1>
 					<Button
 						onClick={handleCreateLobby}
 						variant="secondary"
-						className="mt-8 hover:cursor-pointer"
+						className="mt-9 hover:cursor-pointer"
 						disabled={!isConnected}
 					>
 						{isConnected ? (
@@ -57,9 +57,9 @@ export default function Home() {
 						<Experience />
 					</Canvas>
 				</div>
-				{/* Scroll indicator */}
+
 				<div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 animate-bounce">
-					<span className="text-xs uppercase tracking-widest text-secondary">
+					<span className="text-s uppercase font-bold tracking-widest text-secondary">
 						Scroll
 					</span>
 					<ChevronDown className="w-5 h-5 text-secondary" />
