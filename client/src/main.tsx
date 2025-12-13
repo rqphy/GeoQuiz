@@ -1,4 +1,5 @@
-import "./index.scss"
+import "./index.css"
+import "./old.scss"
 import React from "react"
 import ReactDOM from "react-dom/client"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
@@ -10,18 +11,18 @@ import Lobby from "./routes/lobby/Lobby.tsx"
 import Footer from "./components/Footer/Footer.tsx"
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-    <SocketProvider>
-        <GameProvider>
-            <React.StrictMode>
-                <BrowserRouter>
-                    <Header />
-                    <Routes>
-                        <Route index element={<Home />} />
-                        <Route path="/lobby/:lobbyId" element={<Lobby />} />
-                    </Routes>
-                    <Footer />
-                </BrowserRouter>
-            </React.StrictMode>
-        </GameProvider>
-    </SocketProvider>
+	<SocketProvider>
+		<GameProvider>
+			<React.StrictMode>
+				<BrowserRouter>
+					<Header />
+					<Routes>
+						<Route index element={<Home />} />
+						<Route path="/lobby/:lobbyId" element={<Lobby />} />
+					</Routes>
+					<Footer />
+				</BrowserRouter>
+			</React.StrictMode>
+		</GameProvider>
+	</SocketProvider>
 )
