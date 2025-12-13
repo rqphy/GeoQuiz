@@ -1,12 +1,16 @@
-import "./header.scss"
 import { Link } from "react-router-dom"
 export default function Header() {
 	return (
-		<header>
-			<Link to={"/"} id="homelink">
-				GeoQuiz
+		<header className="flex justify-between px-16 py-10 uppercase font-family-secondary">
+			<Link to={"/"} id="homelink" className="hover:underline">
+				( Home )
 			</Link>
-			<a href="https://github.com/rqphy/GeoQuiz">Github</a>
+			<a
+				href="https://github.com/rqphy/GeoQuiz"
+				className="hover:underline"
+			>
+				( Github )
+			</a>
 		</header>
 	)
 }
