@@ -30,8 +30,8 @@ void main()
     // Create dot with smooth edge
     float dotMask = 1.0 - smoothstep(radius - 0.05, radius + 0.05, dist);
     
-    // White dots on black background
-    vec3 color = vec3(dotMask);
+    // Light grey dots on black background
+    vec3 color = vec3(dotMask * 0.4);
 
     // Final color
     gl_FragColor = vec4(color, 1.0);
