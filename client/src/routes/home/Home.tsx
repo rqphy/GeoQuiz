@@ -98,6 +98,11 @@ export default function Home() {
 
 	return (
 		<>
+			<div className="fixed bottom-0 left-0 w-full h-full">
+				<Canvas camera={{ fov: 30, position: [6, 0, 0] }}>
+					<Experience />
+				</Canvas>
+			</div>
 			{!isConnected && (
 				<div className="fixed top-0 left-0 right-0 z-50 bg-amber-500/90 text-black py-2 px-4 flex items-center justify-center gap-2 text-sm font-medium animate-in slide-in-from-top duration-300">
 					<AlertTriangle className="w-4 h-4" />
@@ -142,7 +147,7 @@ export default function Home() {
 			</section>
 
 			{/* Tutorial Cards */}
-			<section className="relative z-10 py-16 px-6">
+			<section className="bg-black py-16 px-6">
 				<div className="max-w-5xl mx-auto">
 					<h2 className="text-3xl md:text-4xl font-light font-family text-secondary text-center mb-12 uppercase tracking-wide">
 						Comment jouer ?
@@ -151,7 +156,7 @@ export default function Home() {
 						{tutorialCards.map((card, index) => (
 							<Card
 								key={index}
-								className="bg-secondary/5 border-secondary/20 backdrop-blur-sm"
+								className="bg-background/5 border-secondary/20 backdrop-blur-sm"
 							>
 								<CardHeader className="text-center">
 									<card.icon className="w-10 h-10 text-secondary mx-auto mb-3" />
@@ -169,7 +174,7 @@ export default function Home() {
 			</section>
 
 			{/* Statistics Counter */}
-			<section className="relative z-10 py-16 px-6">
+			<section className="bg-black py-16 px-6">
 				<div className="max-w-3xl mx-auto text-center">
 					<div className="bg-secondary/5 border border-secondary/20 backdrop-blur-sm rounded-2xl p-10">
 						<p className="text-6xl md:text-7xl font-bold text-secondary mb-4">
@@ -183,7 +188,7 @@ export default function Home() {
 			</section>
 
 			{/* FAQ Section */}
-			<section className="relative z-10 py-16 px-6">
+			<section className="bg-black py-16 px-6">
 				<div className="max-w-3xl mx-auto">
 					<div className="flex items-center justify-center gap-3 mb-12">
 						<HelpCircle className="w-8 h-8 text-secondary" />
@@ -211,7 +216,7 @@ export default function Home() {
 			</section>
 
 			{/* Reviews Section */}
-			<section className="relative z-10 py-16 px-6 pb-32">
+			<section className="bg-black py-16 px-6 pb-32">
 				<div className="max-w-5xl mx-auto">
 					<div className="flex items-center justify-center gap-3 mb-12">
 						<Quote className="w-8 h-8 text-secondary" />
@@ -252,51 +257,6 @@ export default function Home() {
 					</div>
 				</div>
 			</section>
-
-			<div className="fixed bottom-0 left-0 w-full h-full">
-				<Canvas camera={{ fov: 30, position: [6, 0, 0] }}>
-					<Experience />
-				</Canvas>
-			</div>
 		</>
 	)
-}
-
-{
-	/* <section className="hero">
-	<div className="hero__content">
-		<h1 className="hero__title">GEOQUIZ</h1>
-		<p className="hero__description">
-			Mettez vos connaissances en géographie à l'épreuve dans
-			ce jeu de trivia multijoueur rapide ! Les joueurs
-			répondent à deux types de questions : trouver la
-			capitale d'un pays donné ou nommer le pays d'une
-			capitale donnée. Avec un chronomètre de 20 secondes,
-			tout le monde peut deviner, mais plus vous répondez vite
-			correctement, plus vous marquez de points. Affrontez vos
-			amis ou des joueurs du monde entier et grimpez dans le
-			classement&nbsp;!
-		</p>
-		<div className="hero__actions">
-			<Button
-				label="Jouer"
-				className={`hero__play ${
-					isConnected ? "" : "disabled"
-				}`}
-				onClick={handleCreateLobby}
-			/>
-			{!isConnected && (
-				<p className="hero__loading">
-					Veuillez patienter pendant que nous nous
-					connectons au serveur...
-				</p>
-			)}
-		</div>
-	</div>
-	<div className="hero__planet">
-		<Canvas camera={{ fov: 40, position: [6, 0, 0] }}>
-			<Experience />
-		</Canvas>
-	</div>
-</section> */
 }
